@@ -33,7 +33,38 @@ const getNextCell = (board) => {
   return null;
 };
 
+const getIndexByPiece = (pieces, testPiece) => {
+  if(!pieces || !testPiece) {
+    return null;
+  }
+  for (const index in pieces) {
+    if (pieces[index] === testPiece) {
+      return index;
+    }
+  }
+  return null;
+};
+
+const getLastPiecePlayed = (board) => {
+  if (!board) {
+    return null;
+  }
+
+  for (let y = 0; y < 3; y++) {
+    for (let x = 0; x < 3; x++) {
+      if (!board[y][x]) {
+        if (x === 0 && y > 0) {
+          return board[y - 1][2];
+        }
+        return board[y][x - 1];
+      }
+    }
+  }
+};
+
 module.exports = { 
   isAMatch,
-  getNextCell
+  getNextCell,
+  getIndexByPiece,
+  getLastPiecePlayed
 };

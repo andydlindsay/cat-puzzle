@@ -2,9 +2,10 @@
   "name": "puzzle",
   "version": "1.0.0",
   "description": "",
-  "main": "data.js",
+  "main": "solution.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "start": "node solution.js"
   },
   "keywords": [],
   "author": "",

@@ -1,7 +1,7 @@
 const assert = require('chai').assert;
-const { isAMatch, getNextCell } = require('../helpers');
+const { isAMatch, getNextCell, getIndexByPiece, getLastPiecePlayed } = require('../helpers');
 const Piece = require('../piece');
-const { expect } = require('chai');
+const data = require('../data');
 
 describe('Helper Tests', () => {
 
@@ -65,10 +65,10 @@ describe('Helper Tests', () => {
         }
       }
       const result = getNextCell(board);
-      assert.equal(result, null);
+      assert.strictEqual(result, null);
     });
 
-    it('returns [] given a partially full board', () => {
+    it('returns appropriate cell given a partially full board', () => {
       board[0][0] = true;
       board[0][1] = true;
       const [x, y] = getNextCell(board);
@@ -78,7 +78,75 @@ describe('Helper Tests', () => {
 
     it('returns null if given no board', () => {
       const result = getNextCell();
-      assert.equal(result, null);
+      assert.strictEqual(result, null);
+    });
+
+  });
+
+  describe('getIndexByPiece function', () => {
+
+    let pieces;
+
+    beforeEach(() => {
+      pieces = data.map(sides => new Piece(sides));
+    });
+
+    it('returns null if missing any arguments', () => {
+      const result = getIndexByPiece();
+      assert.strictEqual(result, null);
+    });
+
+    it('returns the index of the given piece', () => {
+      const piece = pieces[5];
+      const result = getIndexByPiece(pieces, piece);
+      assert.equal(result, 5);
+    });
+
+    it('returns null if no piece found', () => {
+      const piece = new Piece(['1A', '2A', '3A', '4A']);
+      const result = getIndexByPiece(pieces, piece);
+      assert.strictEqual(result, null);
+    });
+
+  });
+
+  describe('getLastPiecePlayed function', () => {
+
+    let board;
+
+    beforeEach(() => {
+      board = [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null]
+      ];
+    });
+
+    it('returns null if given no argument', () => {
+      const result = getLastPiecePlayed();
+      assert.strictEqual(result, null);
+    });
+
+    it('retuns the piece from the last occupied spot', () => {
+      const pieceOne = new Piece(['1A', '2A', '3A', '4A']);
+      const pieceTwo = new Piece(['1B', '2B', '3B', '4B']);
+      board[0][0] = pieceOne;
+      board[0][1] = pieceTwo;
+      const result = getLastPiecePlayed(board);
+      assert.equal(result, pieceTwo);
+    });
+
+    it('retuns the piece from the last occupied spot', () => {
+      const pieceOne = new Piece(['1A', '2A', '3A', '4A']);
+      const pieceTwo = new Piece(['1B', '2B', '3B', '4B']);
+      const pieceThree = new Piece(['5A', '6A', '7A', '8A']);
+      const pieceFour = new Piece(['5B', '6B', '7B', '8B']);
+      board[0][0] = pieceOne;
+      board[0][1] = pieceTwo;
+      board[0][2] = pieceThree;
+      board[1][0] = pieceFour;
+      const result = getLastPiecePlayed(board);
+      assert.equal(result, pieceFour);
     });
 
   });
