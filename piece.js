@@ -10,6 +10,7 @@ const Piece = class {
 
   showSides() {
     console.log(this.top, this.right, this.bottom, this.left);
+    return this;
   }
 
   rotateClockwise() {
@@ -18,6 +19,7 @@ const Piece = class {
     this.bottom = this.right;
     this.right = this.top;
     this.top = temp;
+    return this;
   }
 };
 
