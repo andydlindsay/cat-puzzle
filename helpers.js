@@ -62,9 +62,33 @@ const getLastPiecePlayed = (board) => {
   }
 };
 
+const showBoard = (board) => {
+  for (let y = 0; y < 3; y++) {
+    let strOne = '';
+    let strTwo = '';
+    let strThree = '';
+    for (let x = 0; x < 3; x++) {
+      const cell = board[y][x];
+      if (cell) {
+        strOne += `   ${cell.top}  `;
+        strTwo += ` ${cell.left}  ${cell.right}`;
+        strThree += `   ${cell.bottom}  `;
+      } else {
+        strOne += `       `;
+        strTwo += `       `;
+        strThree += `       `;
+      }
+    }
+    console.log(strOne);
+    console.log(strTwo);
+    console.log(strThree);
+  }
+};
+
 module.exports = { 
   isAMatch,
   getNextCell,
   getIndexByPiece,
-  getLastPiecePlayed
+  getLastPiecePlayed,
+  showBoard
 };
